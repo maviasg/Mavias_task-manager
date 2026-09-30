@@ -1,0 +1,15 @@
+import TaskManager from "./components/TaskManager";
+import "./App.css";
+
+function App() {
+  return (
+    <div className="app">
+      <header className="app__header">
+        <h1>Task Manager</h1>
+      </header>
+      <TaskManager />
+    </div>
+  );
+}
+
+export default App;

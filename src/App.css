@@ -1,0 +1,128 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px 48px;
+}
+
+.app__header h1 {
+  margin: 0 0 24px;
+}
+
+.task-manager {
+  width: 100%;
+  max-width: 480px;
+  text-align: left;
+}
+
+.task-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  input {
+    flex: 1 1 160px;
+    font: inherit;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-h);
+  }
+
+  button {
+    font: inherit;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    color: var(--accent);
+    background: var(--accent-bg);
+    cursor: pointer;
+    transition: border-color 0.3s;
+
+    &:hover {
+      border-color: var(--accent-border);
+    }
+  }
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-list__empty {
+  color: var(--text);
+  font-style: italic;
+}
+
+.task {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  &--completed .task__name {
+    text-decoration: line-through;
+    color: var(--text);
+  }
+}
+
+.task__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task__name {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-h);
+}
+
+.task__description {
+  margin: 0;
+  font-size: 15px;
+}
+
+.task__status {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+.task__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+
+  button {
+    font: inherit;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-h);
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      border-color: var(--accent-border);
+    }
+  }
+}
+
+.task__delete {
+  color: #d33;
+}
