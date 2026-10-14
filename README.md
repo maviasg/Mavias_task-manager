@@ -1,6 +1,6 @@
 # Task Manager
 
-A simple task manager built with React, as the Week 1 upskilling assignment. It demonstrates components, props, state, and event handling.
+A simple task manager built with React, as the Week 1 and Week 2 upskilling assignments. It demonstrates components, props, state, event handling, hooks, refs, memoization, and styled-components.
 
 ## What is React, and how does it work?
 
@@ -52,3 +52,14 @@ The output goes to `dist/`, which is what gets deployed (e.g. to Netlify).
 - Mark a task complete / pending.
 - Delete a task.
 - Empty state message when there are no tasks.
+- Task list persists across page reloads (saved to `localStorage`).
+- Task name input auto-focuses on load and after adding a task.
+
+## Week 2 additions
+
+- **Styled Component**: `Task.jsx` is styled with `styled-components` instead of plain CSS classes (the rest of the app still uses `App.css`, for comparison).
+- **Hooks (`useEffect`)**: `TaskManager` uses one effect to log on mount and focus the input, and another to persist `tasks` to `localStorage` whenever it changes.
+- **Refs (`useRef`)**: a ref holds the task name `<input>` DOM node (for `.focus()`) and another holds a running task-ID counter that doesn't need to trigger a re-render when it changes.
+- **`React.memo`**: `Task` is memoized so completing/deleting one task doesn't re-render every other task in the list.
+- **Fragment**: `TaskList` groups a task-count summary and the `<ul>` with `<>...</>`, no extra wrapper element.
+- **Keys**: each `Task` in the list is keyed by `task.id` (stable, not array index).
