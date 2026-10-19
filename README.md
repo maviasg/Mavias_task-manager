@@ -1,6 +1,6 @@
 # Task Manager
 
-A simple task manager built with React, as the Week 1 and Week 2 upskilling assignments. It demonstrates components, props, state, event handling, hooks, refs, memoization, and styled-components.
+A simple task manager built with React, as the Week 1–3 upskilling assignments. It demonstrates components, props, state, event handling, hooks, refs, memoization, styled-components, code-splitting, error boundaries, and routing.
 
 ## What is React, and how does it work?
 
@@ -20,11 +20,19 @@ Data flows one way in this app:
 ```
 src/
   components/
-    Task.jsx         # renders a single task, receives task + action callbacks via props
-    TaskList.jsx      # renders the list of Task components (or an empty state)
-    TaskManager.jsx    # owns task state; add/complete/delete logic lives here
-  App.jsx              # root component, renders TaskManager
-  App.css              # styling
+    Task.jsx          # renders a single task; wrapped in withLogging (HOC) + memo
+    TaskList.jsx       # renders tasks (lazy-loaded); or EmptyState; summary via TaskSummary
+    TaskSummary.jsx     # class PureComponent showing the completed/total count
+    EmptyState.jsx       # stateless "no tasks yet" message
+    TaskManager.jsx       # owns task state; add/complete/delete/filter logic lives here
+    ErrorBoundary.jsx      # class component that catches render errors in its children
+  hoc/
+    withLogging.jsx          # HOC that logs a wrapped component's props on render
+  pages/
+    Home.jsx                  # landing route ("/")
+    TaskManagerPage.jsx         # task manager route ("/tasks")
+  App.jsx                        # router + nav + error boundary
+  App.css                         # styling
 ```
 
 ## Setup and running locally
@@ -63,3 +71,14 @@ The output goes to `dist/`, which is what gets deployed (e.g. to Netlify).
 - **`React.memo`**: `Task` is memoized so completing/deleting one task doesn't re-render every other task in the list.
 - **Fragment**: `TaskList` groups a task-count summary and the `<ul>` with `<>...</>`, no extra wrapper element.
 - **Keys**: each `Task` in the list is keyed by `task.id` (stable, not array index).
+
+## Week 3 additions
+
+- **Lazy Loading + Suspense**: `TaskList` is loaded via `React.lazy()` and wrapped in `<Suspense>` in `TaskManager.jsx`, so its code ships as a separate chunk instead of bloating the initial bundle (confirmed in the build output: `TaskList-*.js` is a distinct file).
+- **Controlled vs. uncontrolled components**: the task-add form (name, description, due date) is fully controlled, each input's value comes from React state. The "Filter tasks by name" input is deliberately **uncontrolled**: it has no `value` prop, the DOM owns its value, and we only read it via a ref when filtering.
+- **Higher-Order Component**: `hoc/withLogging.jsx` wraps `Task` to log its props on every render, without changing `Task` itself.
+- **Pure Component**: `TaskSummary.jsx` is a class component extending `React.PureComponent`, the class-based equivalent of `React.memo`.
+- **Stateless component**: `EmptyState.jsx` and `Task.jsx` hold no state of their own, they're pure functions of their props.
+- **Error Boundary**: `ErrorBoundary.jsx` wraps the routed pages in `App.jsx` and renders a fallback UI if a child component throws during render.
+- **Handling multiple form inputs**: the add-task form now has three fields (name, description, due date) managed by one `form` state object and a single `handleFormChange` that keys off each input's `name` attribute.
+- **React Router**: two routes, `/` (`Home`) and `/tasks` (`TaskManagerPage`), with a nav bar in `App.jsx`. A `public/_redirects` file (`/* /index.html 200`) makes direct loads/refreshes of `/tasks` work correctly once deployed on Netlify, which otherwise only knows about `index.html` as a static host.

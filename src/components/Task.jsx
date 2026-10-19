@@ -1,5 +1,6 @@
 import { memo } from "react";
 import styled from "styled-components";
+import withLogging from "../hoc/withLogging";
 
 const TaskItem = styled.li`
   display: flex;
@@ -57,9 +58,15 @@ const DeleteButton = styled(ActionButton)`
   color: #d33;
 `;
 
-// React.memo skips re-rendering a Task when its own props haven't changed,
-// so editing one task doesn't re-render every other item in the list.
-const Task = memo(function Task({ task, onToggleComplete, onDelete }) {
+const TaskDueDate = styled.span`
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+`;
+
+// A plain, stateless, presentational component: given the same props it
+// always renders the same output, with no internal state of its own.
+function Task({ task, onToggleComplete, onDelete }) {
   const isCompleted = task.status === "completed";
 
   return (
@@ -69,6 +76,7 @@ const Task = memo(function Task({ task, onToggleComplete, onDelete }) {
         {task.description && (
           <TaskDescription>{task.description}</TaskDescription>
         )}
+        {task.dueDate && <TaskDueDate>Due {task.dueDate}</TaskDueDate>}
         <TaskStatus>{task.status}</TaskStatus>
       </div>
       <TaskActions>
@@ -81,6 +89,9 @@ const Task = memo(function Task({ task, onToggleComplete, onDelete }) {
       </TaskActions>
     </TaskItem>
   );
-});
+}
 
-export default Task;
+// Composed with two cross-cutting behaviours: withLogging (HOC) logs props
+// on every render, memo skips re-rendering when props are shallow-equal so
+// editing one task doesn't re-render every other item in the list.
+export default memo(withLogging(Task));

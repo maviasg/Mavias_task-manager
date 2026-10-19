@@ -6,7 +6,42 @@
 }
 
 .app__header h1 {
-  margin: 0 0 24px;
+  margin: 0 0 12px;
+}
+
+.app__nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.home {
+  width: 100%;
+  max-width: 480px;
+  text-align: left;
+}
+
+.home__cta {
+  display: inline-block;
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+.error-boundary {
+  width: 100%;
+  max-width: 480px;
+  text-align: left;
+  color: #d33;
 }
 
 .task-manager {
@@ -15,11 +50,24 @@
   text-align: left;
 }
 
+.task-filter {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
 .task-form {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
   input {
     flex: 1 1 160px;
